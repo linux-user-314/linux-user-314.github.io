@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Cookie Clicker</title>
+        <style>
+            body,
+            html {
+                color: white;
+                background-color: rgb(255, 255, 255);
+                padding: 0px;
+                margin: 0px;
+                font-size: 30px;
+                font-family: Arial, Helvetica, sans-serif;
+                height: 100%;
+                width: 100%;
+            }
+            * {
+                user-select: none;
+            }
+            main {
+                height: 100%;
+            }
+            p {
+                margin: 0px;
+                padding: 0px;
+                font-size: 15px;
+            }
+            #game_containing_three_divs {
+                display: flex;
+                flex-direction: row;
+                height: 100%;
+            }
+            #cookie_info p {
+                text-shadow: 5px 0px 10px black;
+            }
+            #number_of_cookies {
+                font-size: 30px;
+            }
+            #plain_cookies_label {
+                font-size: 30px;
+            }
+            #cookies_per_second_label {
+                font-size: 20px;
+            }
+            #version {
+                position: absolute;
+                bottom: 10px;
+                left: 10px;
+                font-size: 20px;
+                font-weight: bold;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                text-shadow: 0px 5px 10px black;
+                z-index: 4;
+            }
+            #big_cookie_div {
+                background-color: rgba(0, 83, 151, 0.63);
+                width: 30.33vw;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                height: 100%;
+                background-image: url(null/08a6a98a-2d65-4e4f-9619-7460a8ffd0ec);
+                background-size: 100%;
+                user-select: none;
+                overflow: hidden;
+            }
+            #bakery_name {
+                font-size: 20px;
+                height: 50px;
+                width: 100%;
+                background-color: rgba(0, 0, 0, 0.356);
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                position: absolute;
+                top: 20px;
+                margin: 0px;
+            }
+            #bakery_name:hover {
+                text-shadow: 0px 0px 20px white;
+            }
+            #cookie_info {
+                position: absolute;
+                top: 80px;
+                align-self: flex-start;
+                height: 100px;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                flex-direction: column;
+                background-color: rgba(0, 0, 0, 0.356);
+                z-index: 10;
+            }
+            #milk-container {
+                position: absolute;
+                bottom: 0px;
+                width: 100%;
+                height: 20px;
+                overflow: hidden;
+            }
+            #milk {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                height: 100%;
+                background-image: linear-gradient(
+                    to bottom,
+                    rgb(255, 230, 230),
+                    #000000
+                );
+                animation: milky 10s ease-in-out infinite;
+                transform-origin: bottom;
+                overflow: hidden;
+                z-index: 1;
+            }
+            #ihatecss {
+                position: absolute;
+                bottom: 0px;
+                background-color: black;
+                width: 100%;
+                height: 100px;
+                z-index: 0;
+            }
+            @keyframes milky {
+                0%,
+                100% {
+                    transform: translateY(0%);
+                }
+                50% {
+                    transform: translateY(-40%);
+                }
+            }
+
+            #shine {
+                animation: spin 10s linear infinite;
+                position: absolute;
+                opacity: 50%;
+            }
+            @keyframes spin {
+                from {
+                    transform: rotate(0deg);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+            #big_cookie_img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                margin: 0px;
+                cursor: pointer;
+                padding: 0px;
+                transition: 0.5s ease-in-out;
+                z-index: 8;
+            }
+            #big_cookie_img:hover {
+                height: 280px;
+                cursor: pointer;
+                opacity: 80%;
+            }
+            .divider {
+                background-color: rgb(29, 0, 0);
+                padding: 5px;
+            }
+            #buildings_div {
+                height: 100%;
+                width: 40.33vw;
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                background-image: url(/assets/background_vertical.PNG);
+                background-size: 100%;
+            }
+            #menu {
+                background-color: rgb(24, 24, 24);
+                height: 20%;
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+            }
+            .m {
+                height: 100%;
+                width: 20%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                color: grey;
+                font-size: 20px;
+                gap: 20px;
+                background-image: url(/assets/wood.jpeg);
+            }
+            .mini-divider {
+                width: 100%;
+                height: 2px;
+                background-color: grey;
+                margin: none;
+            }
+            #options:hover {
+                cursor: pointer;
+                color: white;
+            }
+            #stats:hover {
+                cursor: pointer;
+                color: white;
+            }
+            #legacy:hover {
+                cursor: pointer;
+                color: white;
+            }
+            #info:hover {
+                cursor: pointer;
+                color: white;
+            }
+            #quotes {
+                background-image: url(/assets/background_vertical.PNG);
+                background-size: 100%;
+                width: 60%;
+                height: 100%;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            } /*! use a quotes api to change this later */
+            #quotes:hover {
+                text-shadow: 0px 5px 5px black;
+                cursor: default;
+            }
+            #m2 {
+                height: 100%;
+                width: 20%;
+            }
+            #buildings_parent {
+                background-size: 70%;
+                height: 80%;
+                width: 100%;
+                background-color: rgba(0, 0, 0, 0.589);
+                overflow: scroll;
+            }
+            .buildings_backdrops {
+                width: 100%;
+                height: 100px;
+                display: none;
+                flex-direction: column;
+                overflow: hidden;
+            }
+            #grandma_backdrop {
+                background-image: url(/assets/buildings/Grandma_Background.webp);
+                position: relative;
+            }
+            #bank_backdrop {
+                background-image: url(/assets/buildings/Bank_Background.webp);
+                position: relative;
+            }
+            #factory_backdrop {
+                background-image: url(/assets/buildings/Factory_Background.webp);
+                position: relative;
+            }
+            #mini_factory {
+                position: absolute;
+                bottom: 30px;
+            }
+            #mini_bank {
+                position: absolute;
+                bottom: 30px;
+            }
+            #farm_backdrop {
+                background-image: url(/assets/buildings/Farm_Background.webp);
+                position: relative;
+            }
+            #mine_backdrop {
+                background-image: url(/assets/buildings/Mine_Background.webp);
+                position: relative;
+            }
+            #mini_mine {
+                position: absolute;
+                bottom: 20px;
+            }
+            #mini_farm {
+                position: absolute;
+                bottom: 20px;
+            }
+            #wt_backdrop {
+                background-image: url(/assets/buildings/Wizard_Tower_Background.webp);
+                position: relative;
+            }
+            #temple_backdrop {
+                background-image: url(/assets/buildings/Temple_Background.webp);
+                position: relative;
+            }
+            #mini_wt {
+                position: absolute;
+                bottom: 20px;
+            }
+            #mini_temple {
+                position: absolute;
+                bottom: 20px;
+            }
+
+            #store_div {
+                background-image: url(/assets/background_vertical.PNG);
+                background-size: 110%;
+                width: 29.64vw;
+                position: relative;
+            }
+
+            #store_label {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                width: 100%;
+                height: 12%;
+                background-color: rgba(0, 0, 0, 0.767);
+                position: absolute;
+                top: 0px;
+                font-weight: bold;
+            }
+
+            #buy_buildings_div {
+                height: 88%;
+                width: 100%;
+                overflow: scroll;
+                position: absolute;
+                bottom: 0px;
+                background-color: rgba(0, 0, 0, 0.637);
+            }
+
+            .building {
+                width: 100%;
+                height: 100px;
+                cursor: pointer;
+                background-size: 100%;
+                transition: 0.5s;
+                opacity: 70%;
+                margin: 0px;
+                padding: 0px;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: rgba(0, 0, 0, 0.808);
+            }
+
+            .building:hover {
+                height: 105px;
+                opacity: 100%;
+            }
+
+            .image {
+                position: absolute;
+                left: 0px;
+                bottom: 0px;
+                height: 70px;
+            }
+
+            #cursor {
+                position: absolute;
+                left: 0px;
+                bottom: 16px;
+                height: 70px;
+            }
+
+            .price_and_name {
+                display: flex;
+                flex-direction: column;
+                justify-content: left;
+                align-items: center;
+                padding: 0px;
+                margin: 0px;
+            }
+
+            .name {
+                color: white;
+                font-size: 30px;
+                margin: 0px;
+            }
+
+            .price {
+                color: yellowgreen;
+                font-size: 15px;
+            }
+
+            .available {
+                position: absolute;
+                right: 10px;
+                color: rgb(126, 126, 126);
+            }
+
+            #mini_grandma {
+                height: 85px;
+                width: 70px;
+            }
+
+            /*? for a screen of a mobile device, the shop is below the cookie */
+            @media screen and (max-width: 900px) {
+                #game_containing_three_divs {
+                    display: flex;
+                    flex-direction: column;
+                }
+                #big_cookie_div {
+                    width: 100%;
+                    height: 600px;
+                }
+                #big_cookie_img {
+                    height: 120px;
+                    top: 200px;
+                }
+                #big_cookie_img:hover {
+                    height: 170px;
+                }
+                #shine {
+                    top: -20px;
+                }
+                #bakery_name {
+                    font-size: 15px;
+                    height: 30px;
+                    top: 0px;
+                }
+                #cookie_info p {
+                    font-size: 15px;
+                }
+                #cookie_info {
+                    height: 55px;
+                    top: 40px;
+                }
+                #milk-container {
+                    display: none;
+                }
+                #version {
+                    font-size: 12px;
+                }
+                #wipe_save {
+                    display: none;
+                }
+                #buildings_div {
+                    width: 100%;
+                    height: 500px;
+                }
+                #menu {
+                    text-align: center;
+                }
+                #m1 {
+                    font-size: 10px;
+                    gap: 10px;
+                }
+                #m2 {
+                    font-size: 10px;
+                    gap: 10px;
+                }
+                #quotes {
+                    font-size: 15px;
+                }
+            }
+        </style>
+        <script
+            src="https://kit.fontawesome.com/fdbd9973ae.js"
+            crossorigin="anonymous"
+        ></script>
+        <script>
+            let cookies = 0; //! for testing change this number
+            let cookies_per_second = 0;
+            let cookies_earned_per_click = 10;
+            let bakery_name_given_by_user = "Click here to Name Your Bakery!";
+
+            let totalCursors = 0;
+            let totalGrandmas =
+                parseInt(localStorage.getItem("total_grandmas")) || 0;
+            let totalFarms = parseInt(localStorage.getItem("total_farms")) || 0;
+            let totalMines = 0;
+            let totalFactories = 0;
+            let totalBanks = 0;
+            let totalTemples = 0;
+            let totalWT = 0;
+
+            document.addEventListener("DOMContentLoaded", function () {
+                document
+                    .getElementById("bakery_name")
+                    .addEventListener("click", change_name_of_bakery);
+                document
+                    .getElementById("big_cookie_img")
+                    .addEventListener("click", change_cookie_number);
+                document.getElementById("bakery_name").textContent =
+                    localStorage.getItem("bakery_name");
+                document.getElementById("number_of_cookies").textContent =
+                    localStorage.getItem("cookies_stored");
+                document.getElementById("per_sec").textContent =
+                    localStorage.getItem("per_sec");
+                document
+                    .getElementById("wipe_save")
+                    .addEventListener("click", wipe_save);
+
+                document.getElementById("total_grandmas").textContent =
+                    localStorage.getItem("total_grandmas");
+                document.getElementById("total_farms").textContent =
+                    localStorage.getItem("total_farms");
+
+                if (totalGrandmas > 10) {
+                    document.getElementById("grandma_backdrop").style.display =
+                        "flex";
+
+                    for (let i = 0; i < 10; i++) {
+                        let miniGran = document.createElement("img");
+                        miniGran.src = "/assets/buildings/grandma_mini.webp";
+                        miniGran.draggable = false;
+                        miniGran.style.position = "absolute";
+                        miniGran.style.left = i * 50 + "px";
+                        miniGran.id = "mini_gran";
+                        document
+                            .getElementById("grandma_backdrop")
+                            .appendChild(miniGran);
+                    }
+                } else if (totalGrandmas != 0) {
+                    document.getElementById("grandma_backdrop").style.display =
+                        "flex";
+
+                    for (let i = 0; i < totalGrandmas; i++) {
+                        let miniGran = document.createElement("img");
+                        miniGran.src = "/assets/buildings/grandma_mini.webp";
+                        miniGran.draggable = false;
+                        miniGran.style.position = "absolute";
+                        miniGran.style.left = i * 50 + "px";
+                        miniGran.id = "mini_gran";
+                        document
+                            .getElementById("grandma_backdrop")
+                            .appendChild(miniGran);
+                    }
+                }
+
+                if (totalFarms > 11) {
+                    document.getElementById("farm_backdrop").style.display =
+                        "flex";
+
+                    for (let i = 0; i < 11; i++) {
+                        let miniFarm = document.createElement("img");
+                        miniFarm.src = "/assets/buildings/farm_mini.webp";
+                        miniFarm.draggable = false;
+                        miniFarm.style.position = "absolute";
+                        miniFarm.style.left = i * 50 + "px";
+                        miniFarm.id = "mini_farm";
+                        document
+                            .getElementById("farm_backdrop")
+                            .appendChild(miniFarm);
+                    }
+                } else if (totalFarms != 0) {
+                    document.getElementById("farm_backdrop").style.display =
+                        "flex";
+
+                    for (let i = 0; i < totalFarms; i++) {
+                        let miniFarm = document.createElement("img");
+                        miniFarm.src = "/assets/buildings/farm_mini.webp";
+                        miniFarm.draggable = false;
+                        miniFarm.style.position = "absolute";
+                        miniFarm.style.left = i * 50 + "px";
+                        miniFarm.id = "mini_farm";
+                        document
+                            .getElementById("farm_backdrop")
+                            .appendChild(miniFarm);
+                    }
+                }
+
+                //! Action Listeners for each building:
+                document
+                    .getElementById("grandmas")
+                    .addEventListener("click", addGrandma);
+                document
+                    .getElementById("farms")
+                    .addEventListener("click", addFarms);
+                document
+                    .getElementById("mines")
+                    .addEventListener("click", addMine);
+                document
+                    .getElementById("factories")
+                    .addEventListener("click", addFactory);
+                document
+                    .getElementById("banks")
+                    .addEventListener("click", addBank);
+                document
+                    .getElementById("temples")
+                    .addEventListener("click", addTemple);
+                document
+                    .getElementById("wizard_towers")
+                    .addEventListener("click", addWT);
+            });
+
+            //this changes the title showing the bakery's name
+            function change_name_of_bakery() {
+                bakery_name_given_by_user = window.prompt(
+                    "What should we name your bakery?"
+                );
+                localStorage.setItem(
+                    "bakery_name",
+                    `${bakery_name_given_by_user}'s Bakery`
+                );
+
+                if (bakery_name_given_by_user == "") {
+                    window.alert("Please give a valid name!");
+                } else {
+                    document.getElementById(
+                        "bakery_name"
+                    ).textContent = `${bakery_name_given_by_user}'s Bakery`;
+                }
+            }
+
+            //TODO: improve performance whoever sees this code pls
+            function wipe_save() {
+                /*
+
+        hopefuly this doesnt cause any confusion 
+        with the 'ok', i am planning to 
+        switch out alert boxes for actual 
+        pop-ups in the future
+
+    */
+
+                let confirmation = window.confirm(
+                    "Are you sure you want to erase all your progress"
+                );
+
+                if (confirmation == 1) {
+                    //wiping out name of the bakery
+                    localStorage.setItem(
+                        "bakery_name",
+                        "What should we name your bakery?"
+                    );
+
+                    //big_cookie_div to default
+                    localStorage.setItem("cookies_stored", "0");
+                    localStorage.setItem("per_sec", "0");
+                    document.getElementById("number_of_cookies").textContent =
+                        "0";
+                    document.getElementById("per_sec").textContent = "0";
+
+                    //buildings' localStorage set to default
+                    localStorage.setItem("total_grandmas", "0");
+                    localStorage.setItem("total_farms", "0");
+
+                    //setting the 'available' div to default
+                    document.getElementById("total_grandmas").textContent = "0";
+                    document.getElementById("total_farms").textContent = "0";
+
+                    //the visual backdrop set to show nothing as if no building has been purchased
+                    document.getElementById("grandma_backdrop").style.display =
+                        "none";
+                    document.getElementById("farm_backdrop").style.display =
+                        "none";
+
+                    //wiping out the global variables
+                    totalGrandmas = 0;
+                    totalFarms = 0;
+
+                    //just doing a reload to make sure everything is updated
+                    location.reload();
+                }
+            }
+
+            //when the cookie is clicked this function changes the p element's value
+            function change_cookie_number() {
+                //converting the stored cookies to an integer
+                cookies = parseInt(localStorage.getItem("cookies_stored"));
+
+                cookies = cookies + cookies_earned_per_click;
+                document.getElementById("number_of_cookies").textContent =
+                    cookies;
+
+                localStorage.setItem("cookies_stored", cookies);
+                add_visual_indicators_when_cookie_clicked();
+            }
+
+            function add_visual_indicators_when_cookie_clicked() {
+                //the visual indicator
+                let visual = document.createElement("p");
+                visual.textContent = `+${cookies_earned_per_click}`;
+
+                //styles for this element
+                visual.style.position = "absolute";
+                visual.style.fontWeight = "bold";
+                visual.style.fontSize = "20px";
+                visual.style.transition = "5s";
+                visual.style.zIndex = "9";
+                visual.style.cursor = "pointer";
+
+                //? Get current cursor position
+                let mouseX = event.clientX;
+                let mouseY = event.clientY;
+                //? Set position of visual next to cursor using abs positioning
+                visual.style.left = mouseX + "px";
+                visual.style.top = mouseY + "px";
+
+                document.getElementById("big_cookie_div").appendChild(visual);
+
+                setTimeout(function () {
+                    visual.style.top = mouseY - 200 + "px";
+                    visual.style.opacity = "10%";
+                    setTimeout(function () {
+                        visual.remove();
+                    }, 1000);
+                }, 10);
+
+                console.log("indicator added successfully!");
+            }
+
+            function getCookies() {
+                return cookies;
+            }
+
+            function changeMilk() {
+                let cookies_for_milk = getCookies();
+
+                if (cookies_for_milk > 50000) {
+                    document.getElementById("milk-container").style.height =
+                        "150px";
+                } else if (cookies_for_milk > 10000) {
+                    document.getElementById("milk-container").style.height =
+                        "100px";
+                } else if (cookies_for_milk > 5000) {
+                    document.getElementById("milk-container").style.height =
+                        "75px";
+                } else if (cookies_for_milk > 1000) {
+                    document.getElementById("milk-container").style.height =
+                        "50px";
+                } else if (cookies_for_milk > 500) {
+                    document.getElementById("milk-container").style.height =
+                        "25px";
+                } else {
+                    document.getElementById("milk-container").style.height =
+                        "10px";
+                }
+            }
+
+            setInterval(changeMilk, 500);
+
+            //! here lies torture, proceed with caution:
+
+            function makeCookies() {
+                //console.log('made work'); never uncomment this line, this is only for testing
+                //document.getElementById('number_of_cookies').textContent = Number(document.getElementById('per_sec')) + Number(document.getElementById('number_of_cookies').textContent);
+                let perSec =
+                    parseInt(document.getElementById("per_sec").textContent) ||
+                    0;
+                let currentCookies =
+                    parseInt(
+                        document.getElementById("number_of_cookies").textContent
+                    ) || 0;
+                let newCookies = currentCookies + perSec;
+                document.getElementById("number_of_cookies").textContent =
+                    newCookies;
+                localStorage.setItem("cookies_stored", newCookies);
+            }
+
+            setInterval(makeCookies, 1000);
+
+            function addGrandma() {
+                cookies_earned_per_click++;
+
+                if (
+                    parseInt(
+                        document.getElementById("number_of_cookies").textContent
+                    ) < 100
+                ) {
+                    alert(
+                        "You dont have enough cookies! \nPlease click that big cookie till you get the required amount"
+                    );
+                } else {
+                    if (totalGrandmas == 0) {
+                        document.getElementById(
+                            "grandma_backdrop"
+                        ).style.display = "flex";
+                        let miniGran = document.createElement("img");
+                        miniGran.src = "/assets/buildings/grandma_mini.webp";
+                        miniGran.draggable = false;
+                        miniGran.style.position = "absolute";
+                        miniGran.style.left = totalGrandmas * 50 + "px";
+                        miniGran.id = "mini_gran";
+                        document
+                            .getElementById("grandma_backdrop")
+                            .appendChild(miniGran);
+
+                        totalGrandmas++;
+                        document.getElementById("per_sec").textContent =
+                            Number(
+                                document.getElementById("per_sec").textContent
+                            ) + 1;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 100;
+                        document.getElementById("total_grandmas").textContent =
+                            totalGrandmas;
+                    } else if (totalGrandmas < 10) {
+                        let newGrandma = document
+                            .getElementById("mini_gran")
+                            .cloneNode(true);
+                        newGrandma.style.position = "absolute";
+                        newGrandma.style.left = totalGrandmas * 50 + "px";
+                        document
+                            .getElementById("grandma_backdrop")
+                            .appendChild(newGrandma);
+                        totalGrandmas++;
+                        document.getElementById("per_sec").textContent =
+                            parseInt(
+                                document.getElementById("per_sec").textContent
+                            ) + 1;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 100;
+                        document.getElementById("total_grandmas").textContent =
+                            totalGrandmas;
+                    } else {
+                        //simple increase cps
+                        totalGrandmas++;
+                        document.getElementById("per_sec").textContent =
+                            parseInt(
+                                document.getElementById("per_sec").textContent
+                            ) + 1;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 100;
+                        document.getElementById("total_grandmas").textContent =
+                            totalGrandmas;
+                    }
+
+                    localStorage.setItem(
+                        "per_sec",
+                        document.getElementById("per_sec").textContent
+                    );
+                    localStorage.setItem("total_grandmas", totalGrandmas);
+                }
+            }
+
+            function addFarms() {
+                cookies_earned_per_click++;
+
+                if (
+                    parseInt(
+                        document.getElementById("number_of_cookies").textContent
+                    ) < 1000
+                ) {
+                    alert(
+                        "You dont have enough cookies! \nPlease click that big cookie till you get the required amount"
+                    );
+                } else {
+                    if (totalFarms == 0) {
+                        document.getElementById("farm_backdrop").style.display =
+                            "flex";
+                        let minifarm = document.createElement("img");
+                        minifarm.src = "/assets/buildings/farm_mini.webp";
+                        minifarm.draggable = false;
+                        minifarm.style.position = "absolute";
+                        minifarm.style.left = totalFarms * 50 + "px";
+                        minifarm.id = "mini_farm";
+                        document
+                            .getElementById("farm_backdrop")
+                            .appendChild(minifarm);
+
+                        totalFarms++;
+                        document.getElementById("per_sec").textContent =
+                            Number(
+                                document.getElementById("per_sec").textContent
+                            ) + 10;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 1000;
+                        document.getElementById("total_farms").textContent =
+                            totalFarms;
+                    } else if (totalFarms < 11) {
+                        let newFarm = document
+                            .getElementById("mini_farm")
+                            .cloneNode(true);
+                        newFarm.style.position = "absolute";
+                        newFarm.style.left = totalFarms * 50 + "px";
+                        document
+                            .getElementById("farm_backdrop")
+                            .appendChild(newFarm);
+                        totalFarms++;
+                        document.getElementById("per_sec").textContent =
+                            parseInt(
+                                document.getElementById("per_sec").textContent
+                            ) + 10;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 1000;
+                        document.getElementById("total_farms").textContent =
+                            totalFarms;
+                    } else {
+                        //simple increase cps
+                        totalFarms++;
+                        document.getElementById("per_sec").textContent =
+                            parseInt(
+                                document.getElementById("per_sec").textContent
+                            ) + 10;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 1000;
+                        document.getElementById("total_farms").textContent =
+                            totalFarms;
+                    }
+
+                    localStorage.setItem(
+                        "per_sec",
+                        document.getElementById("per_sec").textContent
+                    );
+                    localStorage.setItem("total_farms", totalFarms);
+
+                    console.log("farm created cuccessfully!");
+                }
+            }
+
+            function addMine() {
+                cookies_earned_per_click++;
+
+                if (
+                    parseInt(
+                        document.getElementById("number_of_cookies").textContent
+                    ) < 10000
+                ) {
+                    alert(
+                        "You dont have enough cookies! \nPlease click that big cookie till you get the required amount"
+                    );
+                } else {
+                    if (totalMines == 0) {
+                        document.getElementById("mine_backdrop").style.display =
+                            "flex";
+                        let minimine = document.createElement("img");
+                        minimine.src = "/assets/buildings/mine_mini.webp";
+                        minimine.draggable = false;
+                        minimine.style.position = "absolute";
+                        minimine.style.left = totalMines * 50 + "px";
+                        minimine.id = "mini_mine";
+                        document
+                            .getElementById("mine_backdrop")
+                            .appendChild(minimine);
+
+                        totalMines++;
+                        document.getElementById("per_sec").textContent =
+                            Number(
+                                document.getElementById("per_sec").textContent
+                            ) + 100;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 10000;
+                        document.getElementById("total_mines").textContent =
+                            totalMines;
+                    } else if (totalMines < 11) {
+                        let newMine = document
+                            .getElementById("mini_mine")
+                            .cloneNode(true);
+                        newMine.style.position = "absolute";
+                        newMine.style.left = totalMines * 50 + "px";
+                        document
+                            .getElementById("mine_backdrop")
+                            .appendChild(newMine);
+                        totalMines++;
+                        document.getElementById("per_sec").textContent =
+                            parseInt(
+                                document.getElementById("per_sec").textContent
+                            ) + 100;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 10000;
+                        document.getElementById("total_mines").textContent =
+                            totalMines;
+                    } else {
+                        //simple increase cps
+                        totalMines++;
+                        document.getElementById("per_sec").textContent =
+                            parseInt(
+                                document.getElementById("per_sec").textContent
+                            ) + 100;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 10000;
+                        document.getElementById("total_mines").textContent =
+                            totalMines;
+                    }
+
+                    localStorage.setItem(
+                        "per_sec",
+                        document.getElementById("per_sec").textContent
+                    );
+                    localStorage.setItem("total_mines", totalMines);
+
+                    console.log("mine created cuccessfully!");
+                }
+            }
+
+            function addFactory() {
+                cookies_earned_per_click++;
+
+                if (
+                    parseInt(
+                        document.getElementById("number_of_cookies").textContent
+                    ) < 100000
+                ) {
+                    alert(
+                        "You dont have enough cookies! \nPlease click that big cookie till you get the required amount"
+                    );
+                } else {
+                    if (totalFactories == 0) {
+                        document.getElementById(
+                            "factory_backdrop"
+                        ).style.display = "flex";
+                        let minifac = document.createElement("img");
+                        minifac.src = "/assets/buildings/factory_mini.webp";
+                        minifac.draggable = false;
+                        minifac.style.position = "absolute";
+                        minifac.style.left = totalFactories * 50 + "px";
+                        minifac.style.bottom = "20px";
+                        minifac.id = "mini_fac";
+                        document
+                            .getElementById("factory_backdrop")
+                            .appendChild(minifac);
+
+                        totalFactories++;
+                        document.getElementById("per_sec").textContent =
+                            Number(
+                                document.getElementById("per_sec").textContent
+                            ) + 1000;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 100000;
+                        document.getElementById("total_factories").textContent =
+                            totalFactories;
+                    } else if (totalFactories < 11) {
+                        let newFac = document
+                            .getElementById("mini_fac")
+                            .cloneNode(true);
+                        newFac.style.position = "absolute";
+                        newFac.style.left = totalFactories * 50 + "px";
+                        document
+                            .getElementById("factory_backdrop")
+                            .appendChild(newFac);
+                        document.getElementById("per_sec").textContent =
+                            parseInt(
+                                document.getElementById("per_sec").textContent
+                            ) + 1000;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 100000;
+                        document.getElementById("total_factories").textContent =
+                            totalFactories;
+                    } else {
+                        //simple increase cps
+                        totalFactories++;
+                        document.getElementById("per_sec").textContent =
+                            parseInt(
+                                document.getElementById("per_sec").textContent
+                            ) + 1000;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 100000;
+                        document.getElementById("total_factories").textContent =
+                            totalFactories;
+                    }
+
+                    localStorage.setItem(
+                        "per_sec",
+                        document.getElementById("per_sec").textContent
+                    );
+                    localStorage.setItem("total_facs", totalFactories);
+
+                    console.log("factory created cuccessfully!");
+                }
+            }
+
+            function addBank() {
+                cookies_earned_per_click++;
+
+                if (
+                    parseInt(
+                        document.getElementById("number_of_cookies").textContent
+                    ) < 1000000
+                ) {
+                    // 1 million for a bank
+                    alert(
+                        "You dont have enough cookies! \nPlease click that big cookie till you get the required amount"
+                    );
+                } else {
+                    if (totalBanks == 0) {
+                        document.getElementById("bank_backdrop").style.display =
+                            "flex";
+                        let minibank = document.createElement("img");
+                        minibank.src = "/assets/buildings/bank_mini.webp";
+                        minibank.draggable = false;
+                        minibank.style.position = "absolute";
+                        minibank.style.left = totalBanks * 65 + "px";
+                        minibank.style.bottom = "20px";
+                        minibank.id = "mini_bank";
+                        document
+                            .getElementById("bank_backdrop")
+                            .appendChild(minibank);
+
+                        totalBanks++;
+                        document.getElementById("per_sec").textContent =
+                            Number(
+                                document.getElementById("per_sec").textContent
+                            ) + 10000;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 1000000;
+                        document.getElementById("total_banks").textContent =
+                            totalBanks;
+                    } else if (totalBanks < 8) {
+                        let newBank = document
+                            .getElementById("mini_bank")
+                            .cloneNode(true);
+                        newBank.style.position = "absolute";
+                        newBank.style.left = totalBanks * 65 + "px";
+                        document
+                            .getElementById("bank_backdrop")
+                            .appendChild(newBank);
+
+                        totalBanks++;
+                        document.getElementById("per_sec").textContent =
+                            Number(
+                                document.getElementById("per_sec").textContent
+                            ) + 10000;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 1000000;
+                        document.getElementById("total_banks").textContent =
+                            totalBanks;
+                    } else {
+                        //simple increase cps
+                        totalBanks++;
+                        document.getElementById("per_sec").textContent =
+                            Number(
+                                document.getElementById("per_sec").textContent
+                            ) + 10000;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 1000000;
+                        document.getElementById("total_banks").textContent =
+                            totalBanks;
+                    }
+
+                    localStorage.setItem(
+                        "per_sec",
+                        document.getElementById("per_sec").textContent
+                    );
+                    localStorage.setItem("total_banks", totalBanks);
+
+                    console.log("bank created cuccessfully!");
+                }
+            }
+
+            function addTemple() {
+                cookies_earned_per_click += 10;
+
+                if (
+                    parseInt(
+                        document.getElementById("number_of_cookies").textContent
+                    ) < 10000000
+                ) {
+                    //10 million for temple creatin :)
+                    alert(
+                        "You dont have enough cookies! \nPlease click that big cookie till you get the required amount"
+                    );
+                } else {
+                    if (totalTemples == 0) {
+                        document.getElementById(
+                            "temple_backdrop"
+                        ).style.display = "flex";
+                        let miniTemple = document.createElement("img");
+                        miniTemple.src = "/assets/buildings/temple_mini.webp";
+                        miniTemple.draggable = false;
+                        miniTemple.style.position = "absolute";
+                        miniTemple.style.left = totalTemples * 50 + "px";
+                        miniTemple.id = "mini_temple";
+                        document
+                            .getElementById("temple_backdrop")
+                            .appendChild(miniTemple);
+
+                        totalTemples++;
+                        document.getElementById("per_sec").textContent =
+                            Number(
+                                document.getElementById("per_sec").textContent
+                            ) + 100000;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 10000000;
+                        document.getElementById("total_temples").textContent =
+                            totalTemples;
+                    } else if (totalTemples < 11) {
+                        let newTemple = document
+                            .getElementById("mini_temple")
+                            .cloneNode(true);
+                        newTemple.style.position = "absolute";
+                        newTemple.style.left = totalTemples * 50 + "px";
+                        document
+                            .getElementById("temple_backdrop")
+                            .appendChild(newTemple);
+
+                        totalTemples++;
+                        document.getElementById("per_sec").textContent =
+                            Number(
+                                document.getElementById("per_sec").textContent
+                            ) + 100000;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 10000000;
+                        document.getElementById("total_temples").textContent =
+                            totalTemples;
+                    } else {
+                        //simple increase cps
+                        totalTemples++;
+                        document.getElementById("per_sec").textContent =
+                            Number(
+                                document.getElementById("per_sec").textContent
+                            ) + 100000;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 10000000;
+                        document.getElementById("total_temples").textContent =
+                            totalTemples;
+                    }
+
+                    localStorage.setItem(
+                        "per_sec",
+                        document.getElementById("per_sec").textContent
+                    );
+                    localStorage.setItem("total_temples", totalTemples);
+
+                    console.log("temple created cuccessfully!");
+                }
+            }
+
+            function addWT() {
+                cookies_earned_per_click += 10;
+
+                if (
+                    parseInt(
+                        document.getElementById("number_of_cookies").textContent
+                    ) < 100000000
+                ) {
+                    //100 million :O
+                    alert(
+                        "You dont have enough cookies! \nPlease click that big cookie till you get the required amount"
+                    );
+                } else {
+                    if (totalWT == 0) {
+                        document.getElementById("wt_backdrop").style.display =
+                            "flex";
+                        let miniWt = document.createElement("img");
+                        miniWt.src = "/assets/buildings/wt_mini.webp";
+                        miniWt.draggable = false;
+                        miniWt.style.position = "absolute";
+                        miniWt.style.left = totalWT * 45 + "px";
+                        miniWt.id = "mini_wt";
+                        document
+                            .getElementById("wt_backdrop")
+                            .appendChild(miniWt);
+
+                        totalWT++;
+                        document.getElementById("per_sec").textContent =
+                            Number(
+                                document.getElementById("per_sec").textContent
+                            ) + 1000000;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 100000000;
+                        document.getElementById("total_wt").textContent =
+                            totalWT;
+                    } else if (totalWT < 15) {
+                        let newWT = document
+                            .getElementById("mini_wt")
+                            .cloneNode(true);
+                        newWT.style.position = "absolute";
+                        newWT.style.left = totalWT * 45 + "px";
+                        document
+                            .getElementById("wt_backdrop")
+                            .appendChild(newWT);
+
+                        totalWT++;
+                        document.getElementById("per_sec").textContent =
+                            Number(
+                                document.getElementById("per_sec").textContent
+                            ) + 1000000;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 100000000;
+                        document.getElementById("total_wt").textContent =
+                            totalWT;
+                    } else {
+                        //simple increase cps
+                        totalWT++;
+                        document.getElementById("per_sec").textContent =
+                            Number(
+                                document.getElementById("per_sec").textContent
+                            ) + 1000000;
+                        document.getElementById(
+                            "number_of_cookies"
+                        ).textContent =
+                            document.getElementById("number_of_cookies")
+                                .textContent - 100000000;
+                        document.getElementById("total_wt").textContent =
+                            totalWT;
+                    }
+
+                    localStorage.setItem(
+                        "per_sec",
+                        document.getElementById("per_sec").textContent
+                    );
+                    localStorage.setItem("total_wt", totalWT);
+
+                    console.log("Wizard Tower created cuccessfully!");
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <main>
+            <div id="game_containing_three_divs">
+                <div id="big_cookie_div" class="three_sections">
+                    <h1 id="bakery_name">Click here to Name Your Bakery!</h1>
+                    <div id="cookie_info">
+                        <p id="number_of_cookies">0</p>
+                        <p id="plain_cookies_label">cookies</p>
+                        <img
+                            src="/assets/cookies/cursor.png"
+                            id="cursor_rotating"
+                            height="40px"
+                            style="display: none"
+                        />
+                        <div style="display: flex; gap: 5px">
+                            <p id="cookies_per_second_label">per second:</p>
+                            <p id="per_sec" style="font-size: 20px">0</p>
+                        </div>
+                    </div>
+                    <img
+                        src="/assets/cookies/shine.png"
+                        alt="cookie shine"
+                        height="450px"
+                        draggable="false"
+                        id="shine"
+                    />
+                    <img
+                        src="/assets/cookies/big_cookie.png"
+                        alt="big_cookie"
+                        height="250px"
+                        id="big_cookie_img"
+                        draggable="false"
+                    />
+                    <!-- ensure draggable is set to false pls-->
+                    <div id="milk-container">
+                        <div id="milk"></div>
+                        <div id="ihatecss"></div>
+                        <!-- Ignore the name of this div element, it is cause by the urge for rage-quitting -->
+                    </div>
+                    <!-- Version info -->
+                    <p id="version">v. Indev 1.0</p>
+                    <i
+                        title="Wipe Save"
+                        id="wipe_save"
+                        class="fa-regular fa-circle-xmark"
+                        style="
+                            padding: 0px;
+                            margin: 0px;
+                            z-index: 2;
+                            position: absolute;
+                            cursor: pointer;
+                            bottom: 10px;
+                            right: 10px;
+                            color: rgb(197, 0, 0);
+                            border: none;
+                            border-radius: 200px;
+                            box-shadow: 0px 0px 10px rgb(0, 0, 0);
+                        "
+                    ></i>
+                </div>
+                <div class="divider"></div>
+                <div id="buildings_div" class="threesections">
+                    <div id="menu">
+                        <div id="m1" class="m">
+                            <div id="options">Options</div>
+                            <div class="mini-divider"></div>
+                            <div id="stats">Stats</div>
+                        </div>
+                        <div id="quotes">"I looooovvvee Cookies!"</div>
+                        <div id="m2" class="m">
+                            <div id="info">Info</div>
+                            <div class="mini-divider"></div>
+                            <div id="legacy">Legacy</div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div id="buildings_parent">
+                        <!--! buildings go here through javascript: -->
+                        <div
+                            id="grandma_backdrop"
+                            class="buildings_backdrops"
+                        ></div>
+                        <!--? hours wasted debugging = 3 -->
+                        <div id="farm_backdrop" class="buildings_backdrops">
+                            <div class="divider"></div>
+                        </div>
+                        <div id="mine_backdrop" class="buildings_backdrops">
+                            <div class="divider"></div>
+                        </div>
+                        <div id="factory_backdrop" class="buildings_backdrops">
+                            <div class="divider"></div>
+                        </div>
+                        <div id="bank_backdrop" class="buildings_backdrops">
+                            <div class="divider"></div>
+                        </div>
+                        <div id="temple_backdrop" class="buildings_backdrops">
+                            <div class="divider"></div>
+                        </div>
+                        <div id="wt_backdrop" class="buildings_backdrops">
+                            <div class="divider"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div id="store_div" class="three_sections">
+                    <div id="store_label">Store</div>
+                    <!-- the buying section -->
+                    <div id="buy_buildings_div">
+                        <!--! more buildings will be added later on -->
+                        <div class="divider"></div>
+                        <div id="cursors" class="building">
+                            <img
+                                src="/assets/buildings/cursor.webp"
+                                alt="cursor_image"
+                                height="70px"
+                                id="cursor"
+                            />
+                            <div class="price_and_name">
+                                <h2 class="name">Cursor</h2>
+                                <h2 class="price">10 Cookies</h2>
+                            </div>
+                            <h2 class="available">0</h2>
+                        </div>
+                        <div class="divider"></div>
+                        <div id="grandmas" class="building">
+                            <img
+                                src="/assets/buildings/grandma.webp"
+                                alt="grandma_image"
+                                height="70px"
+                                class="image"
+                            />
+                            <div class="price_and_name">
+                                <h2 class="name">Grandma</h2>
+                                <h2 class="price">100 Cookies</h2>
+                            </div>
+                            <h2 class="available" id="total_grandmas">0</h2>
+                        </div>
+                        <div class="divider"></div>
+                        <div id="farms" class="building">
+                            <img
+                                src="/assets/buildings/farm_mini.webp"
+                                alt="bank_image"
+                                height="70px"
+                                class="image"
+                            />
+                            <div class="price_and_name">
+                                <h2 class="name">Cookie Farm</h2>
+                                <h2 class="price">1,000 Cookies</h2>
+                            </div>
+                            <h2 class="available" id="total_farms">0</h2>
+                        </div>
+                        <div class="divider"></div>
+                        <div id="mines" class="building">
+                            <img
+                                src="/assets/buildings/mine_mini.webp"
+                                alt="bank_image"
+                                height="70px"
+                                class="image"
+                            />
+                            <div class="price_and_name">
+                                <h2 class="name">Cookie Mine</h2>
+                                <h2 class="price">10,000 Cookies</h2>
+                            </div>
+                            <h2 class="available" id="total_mines">0</h2>
+                        </div>
+                        <div class="divider"></div>
+                        <div id="factories" class="building">
+                            <img
+                                src="/assets/buildings/factory.webp"
+                                alt="factory_image"
+                                height="70px"
+                                class="image"
+                            />
+                            <div class="price_and_name">
+                                <h2 class="name">Cookie Factory</h2>
+                                <h2 class="price">100,000 Cookies</h2>
+                            </div>
+                            <h2 class="available" id="total_factories">0</h2>
+                        </div>
+                        <div class="divider"></div>
+                        <div id="banks" class="building">
+                            <img
+                                src="/assets/buildings/bank.webp"
+                                alt="bank_image"
+                                height="70px"
+                                class="image"
+                            />
+                            <div class="price_and_name">
+                                <h2 class="name">Cookie Bank</h2>
+                                <h2 class="price">1,000,000 Cookies</h2>
+                            </div>
+                            <h2 class="available" id="total_banks">0</h2>
+                        </div>
+                        <div class="divider"></div>
+                        <div id="temples" class="building">
+                            <img
+                                src="/assets/buildings/temple.webp"
+                                alt="bank_image"
+                                height="70px"
+                                class="image"
+                            />
+                            <div class="price_and_name">
+                                <h2 class="name">Cookie Temple</h2>
+                                <h2 class="price">10,000,000 Cookies</h2>
+                            </div>
+                            <h2 class="available" id="total_temples">0</h2>
+                        </div>
+                        <div class="divider"></div>
+                        <div id="wizard_towers" class="building">
+                            <img
+                                src="/assets/buildings/wt.webp"
+                                alt="bank_image"
+                                height="70px"
+                                class="image"
+                            />
+                            <div class="price_and_name">
+                                <h2 class="name">Wizard Tower</h2>
+                                <h2 class="price">100,000,000 Cookies</h2>
+                            </div>
+                            <h2 class="available" id="total_wt">0</h2>
+                        </div>
+                        <div class="divider"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
